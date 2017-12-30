@@ -93,10 +93,13 @@ div.showTitleDisplay {
     font-weight: bold;
 }
 
-#similarShowsLink {
+#settingsCog {
     position: absolute;
-    right: 30px;
-    top: 10px;
+    right: 12px;
+    top: 11px;
+    color: rgb(200,200,200);
+    font-size: 20px;
+    cursor: pointer;
 }
 
 #posterDisplay {
@@ -128,8 +131,13 @@ div.showTitleDisplay {
     max-height: 300px;
 }
 
-div.graphAnotherShowContainer {
+div.gridFooterContainer {
     text-align: center;
+    margin-top: 15px;
+}
+
+div.gridFooterContainer div {
+    margin-top: 5px;
 }
 
 #ratingContent {

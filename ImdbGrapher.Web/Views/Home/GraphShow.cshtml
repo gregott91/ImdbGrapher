@@ -19,22 +19,40 @@
 <div class="container" id="graphContainer" hidden>
     <div class="showTitleDisplay">
         <a id="showTitleDisplayContent" class="displayPosterLink"></a>
-        <a id="similarShowsLink">View Similar Shows</a>
+        <span class="fa fa-cog" id="settingsCog" data-toggle="modal" data-target="#gridSettingsModal"></span>
     </div>
     <canvas id="showChart"></canvas>
-    <div class="container">
-        <div class="checkbox">
-            <label><input type="checkbox" id="startFromZero"> Start From Zero</label>
+    <div class="container gridFooterContainer">
+        <div>
+            <a id="similarShowsLink">View Similar Shows</a>
         </div>
-        <div class="checkbox">
-            <label><input type="checkbox" id="showSeriesTrendline"> Show Series Trendline</label>
+        <div>
+            <a href="/imdbgraph">Graph Another Show</a>
         </div>
-    </div>
-    <div class="container graphAnotherShowContainer">
-        <a href="/imdbgraph">Graph Another Show</a>
     </div>
 </div>
 
 <div class="container" id="errorContainer" hidden>
     <h4 class="searchResult">Unable to display the requested show</h4>
+</div>
+
+<div id="gridSettingsModal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Configure Chart</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="startFromZero"> Start From Zero</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="showSeriesTrendline"> Show Series Trendline</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
