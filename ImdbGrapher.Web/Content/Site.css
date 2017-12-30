@@ -260,3 +260,7 @@ span.outOfTenRating {
 h1.jumbotronHeader {
     font-size: 50px;
 }
+
+div.aboutLine{
+    margin-bottom: 5px;
+}
