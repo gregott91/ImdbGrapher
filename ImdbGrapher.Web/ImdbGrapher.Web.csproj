@@ -169,9 +169,17 @@
     <Content Include="Views\Home\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ImdbGrapher.Api\ImdbGrapher.Api.csproj">
+      <Project>{d203af2e-c217-48ab-b03c-628b2823a8ea}</Project>
+      <Name>ImdbGrapher.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImdbGrapher.Business\ImdbGrapher.Business.csproj">
       <Project>{f6b8a836-c86e-42aa-80a7-a91a65b6bb00}</Project>
       <Name>ImdbGrapher.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImdbGrapher.Interfaces\ImdbGrapher.Interfaces.csproj">
+      <Project>{a126467a-64f0-43ba-8345-8235a77763ac}</Project>
+      <Name>ImdbGrapher.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\ImdbGrapher.Models\ImdbGrapher.Models.csproj">
       <Project>{c13f005b-6fb0-42ff-9b9f-14cae01ae8b9}</Project>

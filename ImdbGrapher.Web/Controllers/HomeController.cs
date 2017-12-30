@@ -1,4 +1,5 @@
-﻿using ImdbGrapher.Business;
+﻿using ImdbGrapher.Api;
+using ImdbGrapher.Business;
 using ImdbGrapher.Models.Home;
 using ImdbGrapher.Models.Logic;
 using System;
@@ -17,7 +18,10 @@ namespace ImdbGrapher.Controllers
 
         public HomeController()
         {
-            apiLogic = new ApiLogic();
+            var queryBuilder = new ApiQueryBuilder();
+            var api = new ImdbApi(queryBuilder);
+
+            apiLogic = new ApiLogic(api);
         }
 
         /// <summary>
@@ -73,7 +77,7 @@ namespace ImdbGrapher.Controllers
         /// <returns>The ID</returns>
         public async Task<string> GetShowId(string showTitle)
         {
-            return await apiLogic.GetShowIdFromTitle(showTitle);
+            return await apiLogic.GetShowIdFromTitleAsync(showTitle);
         }
 
         /// <summary>

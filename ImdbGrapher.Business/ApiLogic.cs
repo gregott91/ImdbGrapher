@@ -6,37 +6,34 @@ using System.Text;
 using System.Threading.Tasks;
 using ImdbGrapher.Models.Logic;
 using ImdbGrapher.Models.Api;
-using ImdbGrapher.Api;
 using ImdbGrapher.Utilities;
 using System.Text.RegularExpressions;
+using ImdbGrapher.Interfaces.Business;
+using ImdbGrapher.Interfaces.Api;
 
 namespace ImdbGrapher.Business
 {
     /// <summary>
     /// Logic class for the API
     /// </summary>
-    public class ApiLogic
+    public class ApiLogic : IApiLogic
     {
-        private ImdbApi api;
+        private IShowApi api;
         private string apiKey;
 
         /// <summary>
         /// Creates the logic
         /// </summary>
-        public ApiLogic()
+        public ApiLogic(IShowApi imdbApi)
         {
             var apiKey = ConfigurationManager.AppSettings["ApiKey"];
             this.apiKey = apiKey;
 
-            this.api = new ImdbApi();
+            this.api = imdbApi;
         }
 
-        /// <summary>
-        /// Gets the show ID from the title
-        /// </summary>
-        /// <param name="showName">The show name</param>
-        /// <returns>The show ID</returns>
-        public async Task<string> GetShowIdFromTitle(string showName)
+        /// <inheritdoc />
+        public async Task<string> GetShowIdFromTitleAsync(string showName)
         {
             ShowQueryResponse response = await api.GetShowByTitleAsync(showName, apiKey);
 
@@ -71,11 +68,7 @@ namespace ImdbGrapher.Business
             return response.ImdbId;
         }
 
-        /// <summary>
-        /// Gets the list of ratings for a show
-        /// </summary>
-        /// <param name="showId">The show ID</param>
-        /// <returns>The show rating</returns>
+        /// <inheritdoc />
         public async Task<ShowRating> GetShowEpisodeRatingsAsync(string showId)
         {
             ShowQueryResponse response = await api.GetShowByIdAsync(showId, apiKey);
@@ -161,11 +154,7 @@ namespace ImdbGrapher.Business
             return rating;
         }
 
-        /// <summary>
-        /// Searches for shows based off the show name
-        /// </summary>
-        /// <param name="showName">The show name</param>
-        /// <returns>The list of results</returns>
+        /// <inheritdoc />
         public async Task<List<SearchResult>> SearchForShowsAsync(string showName)
         {
             SearchQueryResponse searchResponse = await api.SearchForShowAsync(showName, apiKey);

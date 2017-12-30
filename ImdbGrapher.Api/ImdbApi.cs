@@ -7,32 +7,25 @@ using ImdbGrapher.Models.Api;
 using System.Net.Http;
 using Newtonsoft.Json;
 using log4net;
+using ImdbGrapher.Interfaces.Api;
 
 namespace ImdbGrapher.Api
 {
     /// <summary>
     /// Handles API interactions
     /// </summary>
-    public class ImdbApi
+    public class ImdbApi : IShowApi
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(ImdbApi));
 
-        private ApiQueryBuilder queryBuilder;
+        private IApiQueryBuilder queryBuilder;
 
-        private HttpClient client;
-
-        public ImdbApi()
+        public ImdbApi(IApiQueryBuilder queryBuilder)
         {
-            this.queryBuilder = new ApiQueryBuilder();
-            this.client = new HttpClient();
+            this.queryBuilder = queryBuilder;
         }
 
-        /// <summary>
-        /// Gets the show by title
-        /// </summary>
-        /// <param name="showName">The show name</param>
-        /// <param name="apiKey">The API key</param>
-        /// <returns>The API response</returns>
+        /// <inheritdoc />
         public async Task<ShowQueryResponse> GetShowByTitleAsync(string showName, string apiKey)
         {
             string request = this.queryBuilder.BuildShowTitleRequest(showName, apiKey);
@@ -40,12 +33,7 @@ namespace ImdbGrapher.Api
             return await GetByRequestAsync<ShowQueryResponse>(request);
         }
 
-        /// <summary>
-        /// Gets a show by ID
-        /// </summary>
-        /// <param name="showId">The show ID</param>
-        /// <param name="apiKey">The API key</param>
-        /// <returns>The API response</returns>
+        /// <inheritdoc />
         public async Task<ShowQueryResponse> GetShowByIdAsync(string showId, string apiKey)
         {
             string request = this.queryBuilder.BuildShowIdRequest(showId, apiKey);
@@ -53,13 +41,7 @@ namespace ImdbGrapher.Api
             return await GetByRequestAsync<ShowQueryResponse>(request);
         }
 
-        /// <summary>
-        /// Gets a show season
-        /// </summary>
-        /// <param name="showId">The show ID</param>
-        /// <param name="season">The season number</param>
-        /// <param name="apiKey">The API key</param>
-        /// <returns>The API response</returns>
+        /// <inheritdoc />
         public async Task<SeasonQueryResponse> GetSeasonByIdAsync(string showId, int season, string apiKey)
         {
             string request = this.queryBuilder.BuildSeasonIdRequest(showId, season, apiKey);
@@ -67,12 +49,7 @@ namespace ImdbGrapher.Api
             return await GetByRequestAsync<SeasonQueryResponse>(request);
         }
 
-        /// <summary>
-        /// Searches for shows
-        /// </summary>
-        /// <param name="showName">The show name</param>
-        /// <param name="apiKey">The API key</param>
-        /// <returns>The API response</returns>
+        /// <inheritdoc />
         public async Task<SearchQueryResponse> SearchForShowAsync(string showName, string apiKey)
         {
             string request = this.queryBuilder.BuildSearchRequest(showName, apiKey);
@@ -90,11 +67,14 @@ namespace ImdbGrapher.Api
         {
             try
             {
-                string result = await client.GetStringAsync(requestUrl);
+                using (var client = new HttpClient())
+                {
+                    string result = await client.GetStringAsync(requestUrl);
 
-                log.Debug("Making API request for URL " + requestUrl);
+                    log.Debug("Making API request for URL " + requestUrl);
 
-                return JsonConvert.DeserializeObject<T>(result);
+                    return JsonConvert.DeserializeObject<T>(result);
+                }
             }
             catch (Exception ex)
             {

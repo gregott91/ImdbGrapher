@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImdbGrapher.Interfaces.Api;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ImdbGrapher.Api
     /// <summary>
     /// Handles building the API query
     /// </summary>
-    public class ApiQueryBuilder
+    public class ApiQueryBuilder : IApiQueryBuilder
     {
         private const string Url = "http://www.omdbapi.com";
 
