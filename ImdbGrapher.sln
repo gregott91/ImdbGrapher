@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImdbGrapher.Web", "ImdbGrapher.Web\ImdbGrapher.Web.csproj", "{1F9662BB-169F-4B16-ABC7-141D79DEAAE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImdbGrapher.Business", "ImdbGrapher.Business\ImdbGrapher.Business.csproj", "{F6B8A836-C86E-42AA-80A7-A91A65B6BB00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImdbGrapher.Api", "ImdbGrapher.Api\ImdbGrapher.Api.csproj", "{D203AF2E-C217-48AB-B03C-628B2823A8EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImdbGrapher.Models", "ImdbGrapher.Models\ImdbGrapher.Models.csproj", "{C13F005B-6FB0-42FF-9B9F-14CAE01AE8B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImdbGrapher.Utilities", "ImdbGrapher.Utilities\ImdbGrapher.Utilities.csproj", "{76A4DFB7-B935-4EE8-8763-45402890805C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F9662BB-169F-4B16-ABC7-141D79DEAAE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F9662BB-169F-4B16-ABC7-141D79DEAAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F9662BB-169F-4B16-ABC7-141D79DEAAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F9662BB-169F-4B16-ABC7-141D79DEAAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6B8A836-C86E-42AA-80A7-A91A65B6BB00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6B8A836-C86E-42AA-80A7-A91A65B6BB00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6B8A836-C86E-42AA-80A7-A91A65B6BB00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6B8A836-C86E-42AA-80A7-A91A65B6BB00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D203AF2E-C217-48AB-B03C-628B2823A8EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D203AF2E-C217-48AB-B03C-628B2823A8EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D203AF2E-C217-48AB-B03C-628B2823A8EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D203AF2E-C217-48AB-B03C-628B2823A8EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C13F005B-6FB0-42FF-9B9F-14CAE01AE8B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13F005B-6FB0-42FF-9B9F-14CAE01AE8B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13F005B-6FB0-42FF-9B9F-14CAE01AE8B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13F005B-6FB0-42FF-9B9F-14CAE01AE8B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A4DFB7-B935-4EE8-8763-45402890805C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A4DFB7-B935-4EE8-8763-45402890805C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A4DFB7-B935-4EE8-8763-45402890805C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A4DFB7-B935-4EE8-8763-45402890805C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

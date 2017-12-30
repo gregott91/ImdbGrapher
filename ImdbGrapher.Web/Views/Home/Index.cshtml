@@ -1,0 +1,15 @@
+﻿@section scripts {
+    <script src="~/Scripts/Home/Index.js"></script>
+}
+
+<div class="container">
+    <div class="form-group" id="idOrTitleGroup">
+        <label for="idOrTitle" class="control-label">Series to graph:</label>
+        <input type="text" class="form-control" id="idOrTitle" placeholder="Enter Title or IMDB ID">
+        <span class="help-block" id="helpMessage" hidden></span>
+    </div>
+    <button type="button" id="graphButton" class="btn btn-primary">
+        <div id="buttonText">Graph It!</div>
+        <div class="loader tinyLoader" id="buttonLoader" hidden></div>
+    </button>
+</div>

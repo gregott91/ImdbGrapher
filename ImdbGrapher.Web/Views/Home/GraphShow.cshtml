@@ -1,0 +1,36 @@
+﻿@using ImdbGrapher.Models.Home
+@model GraphShowModel
+
+@section scripts {
+    <script src="~/Scripts/Home/GraphShow.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+}
+
+<input hidden id="showId" value="@Model.ShowId" />
+
+<div class="container" id="loaderContainer">
+    <div class="loader"></div>
+</div>
+
+<div class="container" id="graphContainer" hidden>
+    <div class="showTitleDisplay">
+        <a id="showTitleDisplayContent" class="displayPosterLink"></a>
+        <a id="similarShowsLink">View Similar Shows</a>
+    </div>
+    <canvas id="showChart"></canvas>
+    <div class="container">
+        <div class="checkbox">
+            <label><input type="checkbox" id="startFromZero"> Start From Zero</label>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" id="showSeriesTrendline"> Show Series Trendline</label>
+        </div>
+    </div>
+    <div class="container graphAnotherShowContainer">
+        <a href="/imdbgraph">Graph Another Show</a>
+    </div>
+</div>
+
+<div class="container" id="errorContainer" hidden>
+    <h4 class="searchResult">Unable to display the requested show</h4>
+</div>

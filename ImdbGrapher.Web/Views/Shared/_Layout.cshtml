@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "IMDB Show Grapher";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <h1 class="jumbotronHeader">IMDB Show Grapher</h1>
+        <p class="lead">Generate graphs of TV shows from IMDB</p>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <div id="posterDisplay" class="posterDisplay" hidden>
+            <div class="loader smallLoader" id="posterDisplayLoader"></div>
+            <div id="tooltipContent" hidden>
+                <div id="ratingContent" hidden>
+                    <span id="ratingValue"></span><span class="outOfTenRating">/10</span>
+                </div>
+                <img id="imageDisplay" src="" hidden />
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>IMDB Show Grapher by Greg</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

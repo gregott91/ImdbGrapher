@@ -1,0 +1,23 @@
+﻿@using ImdbGrapher.Models.Home
+@model SearchShowModel
+
+<div class="container" id="searchResultsContainer">
+    @if (Model.Results.Any()) 
+    {
+        <div class="container" id="searchResults">
+            <h4 class="searchResult">Please select from these search results</h4>
+            @foreach (var result in Model.Results)
+            {
+                <a class="searchResultLink displayPosterLink" data-poster="@result.PosterUrl" href="/imdbgraph/Home/GraphShow?id=@result.ImdbId">@result.Title (@result.Year)</a>
+                <br />
+            }
+            <div class="container graphAnotherShowContainer">
+                <a href="/imdbgraph">Graph Another Show</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h4 class="searchResult">Unable to find the requested show</h4>
+    }
+</div>
