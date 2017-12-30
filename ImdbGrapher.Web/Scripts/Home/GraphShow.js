@@ -7,12 +7,16 @@
     var seasonTrendlines;
     var seriesTrendline;
 
+    var imdbUrl = 'http://www.imdb.com/title/';
+
+    // download and format the data on page load
     graphShow();
 
+    // if the grid options are changed, refresh the graph
     $('#startFromZero').change(displayShowGraph);
-
     $('#showSeriesTrendline').change(displayShowGraph);
 
+    // handle a click on the chart
     $('#showChart').mousedown(function (e) {
         if (e.which != 1 && e.which != 2) {
             return;
@@ -33,8 +37,10 @@
             return;
         }
 
-        var url = 'http://www.imdb.com/title/' + graphResult.SeasonRatings[episodeIndex.Season].EpisodeRatings[episodeIndex.Episode].ImdbId;
+        // generate the url for the show
+        var url = imdbUrl + graphResult.SeasonRatings[episodeIndex.Season].EpisodeRatings[episodeIndex.Episode].ImdbId;
 
+        // open in current window or new tab, depending on click type
         if (e.which == 2) {
             window.open(url, '_blank');
         } else {
@@ -42,6 +48,7 @@
         }
     });
 
+    // gets the show data and graphs the show
     function graphShow() {
         $.ajax({
             url: '/imdbgraph/Home/GetShowData?showId=' + $('#showId').val(),
@@ -51,7 +58,8 @@
                 if (result.ShowTitle) {
                     graphResult = result;
 
-                    initializeChart();
+                    var labels = initializeGraphData();
+                    initializeChart(labels);
                     displayShowGraph();
                 } else {
                     $('#errorContainer').show();
@@ -64,7 +72,8 @@
         });
     }
 
-    function initializeChart() {
+    // initializes the data for the graph
+    function initializeGraphData() {
         $('#graphContainer').show();
 
         var graphLabels = [];
@@ -120,11 +129,16 @@
         });
 
         $('#showTitleDisplayContent').text(graphResult.ShowTitle + " (" + graphResult.Year + ")");
-        $('#showTitleDisplayContent').attr('href', 'http://www.imdb.com/title/' + graphResult.ImdbId);
+        $('#showTitleDisplayContent').attr('href', imdbUrl + graphResult.ImdbId);
         $('#showTitleDisplayContent').attr('data-poster', graphResult.PosterUrl);
         $('#showTitleDisplayContent').attr('data-rating', graphResult.ImdbRating);
         $('#similarShowsLink').attr('href', '/imdbgraph/Home/SearchShows?showTitle=' + graphResult.ShowTitle);
 
+        return graphLabels;
+    }
+
+    // initializes the graph
+    function initializeChart(graphLabels) {
         var ctx = $('#showChart')[0];
         ctx.height = 500;
         ctx.width = 1110;
@@ -191,6 +205,7 @@
         });
     }
 
+    // gets the epsiode index from the dataset indices
     function getEpisodeIndex(index, datasetIndex) {
         if (datasetIndex >= graphResult.SeasonRatings.length) {
             return null;
@@ -207,6 +222,7 @@
         }
     }
 
+    // gets the episode tooltip label
     function getLabel(datasetIndex, dataIndex) {
         var seasonIndex = datasetIndex + 1;
         var episodeIndex = dataIndex + 1;
@@ -221,6 +237,7 @@
         ];
     }
 
+    // displays the graph from the UI options
     function displayShowGraph() {
         var startAtZero = $('#startFromZero').prop('checked');
         var generateSeasonTrendline = true;
@@ -249,6 +266,7 @@
         chart.update(0);
     }
 
+    // generates a trendline dataset
     function generateTrendlineDataset(ratings, offset, seasonColor) {
         var trendLine = calculateTrendLine(ratings);
 
@@ -275,6 +293,7 @@
         };
     }
 
+    // calculates a trendline off of a series of points
     function calculateTrendLine(episodeRatings) {
         var n = episodeRatings.length;
 
@@ -339,6 +358,7 @@
         }
     }
 
+    // gets the color of the points for a given season
     function getSeasonColor(season) {
         var r = 0;
         var g = 0;
@@ -384,6 +404,7 @@
         }
     }
 
+    // formats a color as an rgba string
     function formatColor(color, alpha) {
         return 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + alpha + ')';
     }
