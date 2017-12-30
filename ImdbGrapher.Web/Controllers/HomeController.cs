@@ -17,8 +17,7 @@ namespace ImdbGrapher.Controllers
 
         public HomeController()
         {
-            var apiKey = ConfigurationManager.AppSettings["ApiKey"];
-            apiLogic = new ApiLogic(apiKey);
+            apiLogic = new ApiLogic();
         }
 
         /// <summary>

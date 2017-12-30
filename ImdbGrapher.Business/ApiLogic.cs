@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,38 +12,54 @@ using System.Text.RegularExpressions;
 
 namespace ImdbGrapher.Business
 {
+    /// <summary>
+    /// Logic class for the API
+    /// </summary>
     public class ApiLogic
     {
         private ImdbApi api;
-
         private string apiKey;
 
-        public ApiLogic(string apiKey)
+        /// <summary>
+        /// Creates the logic
+        /// </summary>
+        public ApiLogic()
         {
-            this.api = new ImdbApi();
+            var apiKey = ConfigurationManager.AppSettings["ApiKey"];
             this.apiKey = apiKey;
+
+            this.api = new ImdbApi();
         }
 
+        /// <summary>
+        /// Gets the show ID from the title
+        /// </summary>
+        /// <param name="showName">The show name</param>
+        /// <returns>The show ID</returns>
         public async Task<string> GetShowIdFromTitle(string showName)
         {
             ShowQueryResponse response = await api.GetShowByTitleAsync(showName, apiKey);
 
             bool foundShow = response.Response;
 
+            // if it's able to find a show, determine whether this is actually the correct show
             if (foundShow)
             {
                 int similarity = response.Title.CompareSimilarity(showName);
 
+                // if the show found does not have a similar title, assume we didn't find the correct show
                 if (similarity > 3)
                 {
                     foundShow = false;
                 }
             }
 
+            // if no show is found, perform a search for all shows that match
             if (!foundShow)
             {
                 var searchResults = await api.SearchForShowAsync(showName, apiKey);
 
+                // if only one result is returned, assume this is the show that's being searched for
                 if (searchResults.Response && searchResults.Search.Count() == 1)
                 {
                     return searchResults.Search.First().ImdbId;
@@ -54,6 +71,11 @@ namespace ImdbGrapher.Business
             return response.ImdbId;
         }
 
+        /// <summary>
+        /// Gets the list of ratings for a show
+        /// </summary>
+        /// <param name="showId">The show ID</param>
+        /// <returns>The show rating</returns>
         public async Task<ShowRating> GetShowEpisodeRatingsAsync(string showId)
         {
             ShowQueryResponse response = await api.GetShowByIdAsync(showId, apiKey);
@@ -93,11 +115,18 @@ namespace ImdbGrapher.Business
 
                 if (!seasonResponse.Response)
                 {
-                    return null;
+                    continue;
+                }
+
+                int seasonValue;
+                if (!int.TryParse(seasonResponse.Season, out seasonValue))
+                {
+                    continue;
                 }
 
                 SeasonRating seasonRating = new SeasonRating()
                 {
+                    Season = seasonValue,
                     EpisodeRatings = new List<EpisodeRating>()
                 };
 
@@ -127,9 +156,16 @@ namespace ImdbGrapher.Business
                 }
             }
 
+            rating.SeasonRatings = rating.SeasonRatings.OrderBy(x => x.Season).ToList();
+
             return rating;
         }
 
+        /// <summary>
+        /// Searches for shows based off the show name
+        /// </summary>
+        /// <param name="showName">The show name</param>
+        /// <returns>The list of results</returns>
         public async Task<List<SearchResult>> SearchForShowsAsync(string showName)
         {
             SearchQueryResponse searchResponse = await api.SearchForShowAsync(showName, apiKey);

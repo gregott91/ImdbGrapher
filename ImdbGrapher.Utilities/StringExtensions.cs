@@ -8,40 +8,48 @@ namespace ImdbGrapher.Utilities
 {
     public static class StringExtensions
     {
-        public static int CompareSimilarity(this string s, string t)
+        /// <summary>
+        /// Compares similarity of 2 strings based on Levenshtein distance
+        /// </summary>
+        /// <param name="source">Source string</param>
+        /// <param name="compareString">String to compare</param>
+        /// <returns>Factor of similarity. Less is more similar</returns>
+        public static int CompareSimilarity(this string source, string compareString)
         {
-            if (string.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(source))
             {
-                if (string.IsNullOrEmpty(t))
-                    return 0;
-                return t.Length;
-            }
-
-            if (string.IsNullOrEmpty(t))
-            {
-                return s.Length;
-            }
-
-            int n = s.Length;
-            int m = t.Length;
-            int[,] d = new int[n + 1, m + 1];
-
-            // initialize the top and right of the table to 0, 1, 2, ...
-            for (int i = 0; i <= n; d[i, 0] = i++) ;
-            for (int j = 1; j <= m; d[0, j] = j++) ;
-
-            for (int i = 1; i <= n; i++)
-            {
-                for (int j = 1; j <= m; j++)
+                if (string.IsNullOrEmpty(compareString))
                 {
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+                    return 0;
+                }
+
+                return compareString.Length;
+            }
+
+            if (string.IsNullOrEmpty(compareString))
+            {
+                return source.Length;
+            }
+
+            int sourceLength = source.Length;
+            int compareLength = compareString.Length;
+            int[,] d = new int[sourceLength + 1, compareLength + 1];
+
+            for (int i = 0; i <= sourceLength; d[i, 0] = i++) ;
+            for (int j = 1; j <= compareLength; d[0, j] = j++) ;
+
+            for (int i = 1; i <= sourceLength; i++)
+            {
+                for (int j = 1; j <= compareLength; j++)
+                {
+                    int cost = (compareString[j - 1] == source[i - 1]) ? 0 : 1;
                     int min1 = d[i - 1, j] + 1;
                     int min2 = d[i, j - 1] + 1;
                     int min3 = d[i - 1, j - 1] + cost;
                     d[i, j] = Math.Min(Math.Min(min1, min2), min3);
                 }
             }
-            return d[n, m];
+            return d[sourceLength, compareLength];
         }
     }
 }

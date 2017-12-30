@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ImdbGrapher.Api
 {
+    /// <summary>
+    /// Handles building the API query
+    /// </summary>
     public class ApiQueryBuilder
     {
         private const string Url = "http://www.omdbapi.com";
@@ -22,6 +25,12 @@ namespace ImdbGrapher.Api
 
         private const string TypeParameterValue = "type=series";
 
+        /// <summary>
+        /// Builds a request for a show by title
+        /// </summary>
+        /// <param name="title">The show title</param>
+        /// <param name="apiKey">The API key</param>
+        /// <returns>The request URL</returns>
         public string BuildShowTitleRequest(string title, string apiKey)
         {
             return string.Format("{0}/?{1}={2}&{3}&{4}={5}",
@@ -33,6 +42,12 @@ namespace ImdbGrapher.Api
                 apiKey);
         }
 
+        /// <summary>
+        /// Builds a request for a show by ID
+        /// </summary>
+        /// <param name="id">The show ID</param>
+        /// <param name="apiKey">The API key</param>
+        /// <returns>The request URL</returns>
         public string BuildShowIdRequest(string id, string apiKey)
         {
             return string.Format("{0}/?{1}={2}&{3}&{4}={5}",
@@ -44,6 +59,13 @@ namespace ImdbGrapher.Api
                 apiKey);
         }
 
+        /// <summary>
+        /// Builds a request for a season
+        /// </summary>
+        /// <param name="id">The show ID</param>
+        /// <param name="season">The season number</param>
+        /// <param name="apiKey">The API key</param>
+        /// <returns>The request URL</returns>
         public string BuildSeasonIdRequest(string id, int season, string apiKey)
         {
             return string.Format("{0}/?{1}={2}&{3}&{4}={5}&{6}={7}",
@@ -57,6 +79,12 @@ namespace ImdbGrapher.Api
                 apiKey);
         }
 
+        /// <summary>
+        /// Builds a request for a search by showname
+        /// </summary>
+        /// <param name="showName">The show name</param>
+        /// <param name="apiKey">The API key</param>
+        /// <returns>The request URL</returns>
         public string BuildSearchRequest(string showName, string apiKey)
         {
             return string.Format("{0}/?{1}={2}&{3}&{4}={5}",
