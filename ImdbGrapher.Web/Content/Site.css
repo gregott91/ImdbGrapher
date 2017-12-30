@@ -136,9 +136,9 @@ div.gridFooterContainer {
     margin-top: 15px;
 }
 
-div.gridFooterContainer div {
-    margin-top: 5px;
-}
+    div.gridFooterContainer div {
+        margin-top: 5px;
+    }
 
 #ratingContent {
     text-align: center;
@@ -261,6 +261,6 @@ h1.jumbotronHeader {
     font-size: 50px;
 }
 
-div.aboutLine{
+div.aboutLine {
     margin-bottom: 5px;
 }

@@ -5,7 +5,7 @@
 
     var showDatasets;
     var seasonTrendlines;
-    var seriesTrendline;
+    var graphLabels;
 
     var imdbUrl = 'http://www.imdb.com/title/';
 
@@ -15,6 +15,15 @@
     // if the grid options are changed, refresh the graph
     $('#startFromZero').change(displayShowGraph);
     $('#showSeriesTrendline').change(displayShowGraph);
+    $('#filterSeasons').change(displayShowGraph);
+    $('#seasonStartDropdown').change(function () {
+        updateSeasonFilter(true);
+        displayShowGraph();
+    });
+    $('#seasonEndDropdown').change(function () {
+        updateSeasonFilter(false);
+        displayShowGraph();
+    });
 
     // handle a click on the chart
     $('#showChart').mousedown(function (e) {
@@ -48,6 +57,22 @@
         }
     });
 
+    // updates the filter dropdowns for the season
+    function updateSeasonFilter(startChanged) {
+        $('#filterSeasons').prop('checked', true);
+
+        var startVal = $('#seasonStartDropdown').val();
+        var endVal = $('#seasonEndDropdown').val();
+
+        if (endVal != -1 && parseInt(startVal) > parseInt(endVal)) {
+            if (startChanged) {
+                $('#seasonEndDropdown').val(-1);
+            } else {
+                $('#seasonStartDropdown').val(-1);
+            }
+        }
+    }
+
     // gets the show data and graphs the show
     function graphShow() {
         $.ajax({
@@ -58,8 +83,8 @@
                 if (result.ShowTitle) {
                     graphResult = result;
 
-                    var labels = initializeGraphData();
-                    initializeChart(labels);
+                    initializeGraphData();
+                    initializeChart();
                     displayShowGraph();
                 } else {
                     $('#errorContainer').show();
@@ -76,76 +101,58 @@
     function initializeGraphData() {
         $('#graphContainer').show();
 
-        var graphLabels = [];
-
+        graphLabels = {};
         showDatasets = [];
         seasonTrendlines = [];
-        seriesTrendline = [];
 
-        var allEpisodes = [];
         var episodeCount = 0;
 
         for (var seasonIndex in graphResult.SeasonRatings) {
             var season = graphResult.SeasonRatings[seasonIndex];
             var seasonColor = getSeasonColor(seasonIndex);
             var seasonDisplay = parseInt(seasonIndex) + 1;
+            graphLabels[seasonDisplay] = [];
             var dataset = [];
 
-            for (var nullEpisode = 0; nullEpisode < episodeCount; nullEpisode++) {
-                dataset.push(null);
-            }
-
             for (var episodeIndex in season.EpisodeRatings) {
-                var xIndex = episodeCount + parseInt(episodeIndex);
                 var episodeDisplay = parseInt(episodeIndex) + 1;
 
-                graphLabels.push('S' + seasonDisplay + 'E' + episodeDisplay);
+                graphLabels[seasonDisplay].push('S' + seasonDisplay + 'E' + episodeDisplay);
 
                 var episode = season.EpisodeRatings[episodeIndex];
                 dataset.push(episode.ImdbRating);
-
-                allEpisodes.push(episode);
             }
 
             showDatasets.push({
-                pointRadius: 4,
-                pointHoverRadius: 7,
-                borderColor: formatColor(seasonColor, 0.1),
-                backgroundColor: formatColor(seasonColor, 0.05),
-                pointBorderColor: formatColor(seasonColor, 1),
-                pointBackgroundColor: formatColor(seasonColor, 0.5),
-                data: dataset
+                data: dataset,
+                season: season.Season,
+                seasonColor: seasonColor
             });
 
-            seasonTrendlines.push(generateTrendlineDataset(season.EpisodeRatings, episodeCount, seasonColor));
+            seasonTrendlines.push(generateTrendlineDataset(dataset));
 
             episodeCount += season.EpisodeRatings.length;
-        }
 
-        seriesTrendline = generateTrendlineDataset(allEpisodes, 0, {
-            r: 255,
-            g: 255,
-            b: 255
-        });
+            $('#seasonStartDropdown').append('<option value="' + season.Season + '">' + season.Season + '</option>');
+            $('#seasonEndDropdown').append('<option value="' + season.Season + '">' + season.Season + '</option>');
+        }
 
         $('#showTitleDisplayContent').text(graphResult.ShowTitle + " (" + graphResult.Year + ")");
         $('#showTitleDisplayContent').attr('href', imdbUrl + graphResult.ImdbId);
         $('#showTitleDisplayContent').attr('data-poster', graphResult.PosterUrl);
         $('#showTitleDisplayContent').attr('data-rating', graphResult.ImdbRating);
         $('#similarShowsLink').attr('href', '/imdbgraph/Home/SearchShows?showTitle=' + graphResult.ShowTitle);
-
-        return graphLabels;
     }
 
     // initializes the graph
-    function initializeChart(graphLabels) {
+    function initializeChart() {
         var ctx = $('#showChart')[0];
         ctx.height = 500;
         ctx.width = 1110;
         chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: graphLabels,
+                labels: [],
                 datasets: []
             },
             options: {
@@ -207,11 +214,22 @@
 
     // gets the epsiode index from the dataset indices
     function getEpisodeIndex(index, datasetIndex) {
+        var unfilteredDatasetIndex = datasetIndex;
+        var filterSeasons = $('#filterSeasons').prop('checked');
+        var startVal = $('#seasonStartDropdown').val();
+        var endVal = $('#seasonEndDropdown').val();
+        var startIndex = 0;
+
+        if (filterSeasons && startVal != -1) {
+            startIndex = startVal - 1;
+            datasetIndex += startIndex;
+        }
+
         if (datasetIndex >= graphResult.SeasonRatings.length) {
             return null;
         }
 
-        for (var i = 0; i < datasetIndex; i++) {
+        for (var i = startIndex; i < datasetIndex; i++) {
             var datasetLength = graphResult.SeasonRatings[i].EpisodeRatings.length;
             index = index - datasetLength;
         }
@@ -242,38 +260,99 @@
         var startAtZero = $('#startFromZero').prop('checked');
         var generateSeasonTrendline = true;
         var generateShowTrendline = $('#showSeriesTrendline').prop('checked');
+        var filterSeasons = $('#filterSeasons').prop('checked');
+        var startVal = $('#seasonStartDropdown').val();
+        var endVal = $('#seasonEndDropdown').val();
 
         var dataSets = [];
+        var trendlineDatasets = [];
         var allEpisodes = [];
         var episodeCount = 0;
+        var labels = [];
 
+        var episodeCount = 0;
         for (var datasetIndex in showDatasets) {
-            dataSets.push(showDatasets[datasetIndex]);
-        }
+            var dataset = showDatasets[datasetIndex];
+            var displaySeason = true;
 
-        if (generateSeasonTrendline) {
-            for (var datasetIndex in seasonTrendlines) {
-                dataSets.push(seasonTrendlines[datasetIndex]);
+            if (filterSeasons) {
+                var isFiltered = false;
+                if (startVal != -1 && startVal > dataset.season) {
+                    isFiltered = true;
+                } else if (endVal != -1 && endVal < dataset.season) {
+                    isFiltered = true;
+                }
+
+                displaySeason = !isFiltered;
+            }
+
+            if (displaySeason) {
+                var nullDataset = [];
+                for (var nullEpisode = 0; nullEpisode < episodeCount; nullEpisode++) {
+                    nullDataset.push(null);
+                }
+
+                allEpisodes = allEpisodes.concat(dataset.data);
+
+                var resultDataset = nullDataset.concat(dataset.data);
+
+                dataSets.push({
+                    pointRadius: 4,
+                    pointHoverRadius: 7,
+                    borderColor: formatColor(dataset.seasonColor, 0.1),
+                    backgroundColor: formatColor(dataset.seasonColor, 0.05),
+                    pointBorderColor: formatColor(dataset.seasonColor, 1),
+                    pointBackgroundColor: formatColor(dataset.seasonColor, 0.5),
+                    data: resultDataset
+                });
+
+                if (generateSeasonTrendline) {
+                    var trendlineDataset = nullDataset.concat(seasonTrendlines[datasetIndex].data);
+
+                    trendlineDatasets.push(convertTrendlineToDataset(trendlineDataset, dataset.seasonColor));
+                }
+
+                var seasonLabels = graphLabels[dataset.season];
+                labels = labels.concat(seasonLabels);
+
+                episodeCount += dataset.data.length;
             }
         }
 
+        dataSets = dataSets.concat(trendlineDatasets);
+
         if (generateShowTrendline) {
-            dataSets.push(seriesTrendline);
+            var seriesTrendline = generateTrendlineDataset(allEpisodes);
+            dataSets.push(convertTrendlineToDataset(seriesTrendline.data, {
+                r: 255,
+                g: 255,
+                b: 255
+            }));
         }
 
         chart.options.scales.yAxes[0].ticks.beginAtZero = startAtZero;
         chart.data.datasets = dataSets;
+        chart.data.labels = labels;
         chart.update(0);
     }
 
+    function convertTrendlineToDataset(trendlineDataset, color) {
+        return {
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            borderColor: formatColor(color, 1),
+            backgroundColor: 'transparent',
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: 'transparent',
+            data: trendlineDataset
+        };
+    }
+
     // generates a trendline dataset
-    function generateTrendlineDataset(ratings, offset, seasonColor) {
+    function generateTrendlineDataset(ratings) {
         var trendLine = calculateTrendLine(ratings);
 
         var dataset = [];
-        for (var i = 0; i < offset; i++) {
-            dataset.push(null);
-        }
 
         var lastValue = trendLine.yIntercept;
         for (var i = 0; i < ratings.length; i++) {
@@ -283,12 +362,6 @@
         }
 
         return {
-            pointRadius: 4,
-            pointHoverRadius: 7,
-            borderColor: formatColor(seasonColor, 1),
-            backgroundColor: 'transparent',
-            pointBorderColor: 'transparent',
-            pointBackgroundColor: 'transparent',
             data: dataset
         };
     }
@@ -300,7 +373,7 @@
         var a = 0;
         for (var index in episodeRatings) {
             var x = parseInt(index) + 1;
-            var y = episodeRatings[index].ImdbRating;
+            var y = episodeRatings[index];
 
             a += (x * y);
         }
@@ -310,7 +383,7 @@
         var bX = 0;
         for (var index in episodeRatings) {
             var x = parseInt(index) + 1;
-            var y = episodeRatings[index].ImdbRating;
+            var y = episodeRatings[index];
 
             bY += y;
             bX += x;
@@ -337,7 +410,7 @@
 
         var e = 0;
         for (var index in episodeRatings) {
-            var y = episodeRatings[index].ImdbRating;
+            var y = episodeRatings[index];
 
             e += y;
         }
