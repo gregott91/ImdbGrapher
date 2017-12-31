@@ -68,8 +68,13 @@ namespace ImdbGrapher.Business
             return response.ImdbId;
         }
 
-        /// <inheritdoc />
-        public async Task<ShowRating> GetShowEpisodeRatingsAsync(string showId)
+
+        /// <summary>
+        /// Gets the details for a show
+        /// </summary>
+        /// <param name="showId">The show ID</param>
+        /// <returns>The show rating</returns>
+        public async Task<ShowRating> GetShowAsync(string showId)
         {
             ShowQueryResponse response = await api.GetShowByIdAsync(showId, apiKey);
 
@@ -95,14 +100,21 @@ namespace ImdbGrapher.Business
                 Actors = response.Actors,
                 ImdbVotes = response.ImdbVotes,
                 Plot = response.Plot,
-                SeasonRatings = new List<SeasonRating>()
+                TotalSeasons = response.TotalSeasons
             };
 
+            return rating;
+        }
+
+        /// <inheritdoc />
+        public async Task<List<SeasonRating>> GetShowEpisodeRatingsAsync(string showId, int totalSeasons)
+        {
+            List<SeasonRating> ratings = new List<SeasonRating>();
             List<Task<SeasonQueryResponse>> responseTasks = new List<Task<SeasonQueryResponse>>();
 
-            for (int i = 1; i <= response.TotalSeasons; i++)
+            for (int i = 1; i <= totalSeasons; i++)
             {
-                responseTasks.Add(api.GetSeasonByIdAsync(response.ImdbId, i, apiKey));
+                responseTasks.Add(api.GetSeasonByIdAsync(showId, i, apiKey));
             }
 
             foreach (Task<SeasonQueryResponse> responseTask in responseTasks)
@@ -148,13 +160,13 @@ namespace ImdbGrapher.Business
                 if (seasonRating.EpisodeRatings.Any())
                 {
                     seasonRating.EpisodeRatings = seasonRating.EpisodeRatings.OrderBy(x => x.Episode).ToList();
-                    rating.SeasonRatings.Add(seasonRating);
+                    ratings.Add(seasonRating);
                 }
             }
 
-            rating.SeasonRatings = rating.SeasonRatings.OrderBy(x => x.Season).ToList();
+            ratings = ratings.OrderBy(x => x.Season).ToList();
 
-            return rating;
+            return ratings;
         }
 
         /// <inheritdoc />

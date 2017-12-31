@@ -433,7 +433,6 @@ div.showDetailsButton {
         color: #333;
     }
 
-
 @media (max-width: 767px) {
     div.showDetailsButton {
         position: absolute;

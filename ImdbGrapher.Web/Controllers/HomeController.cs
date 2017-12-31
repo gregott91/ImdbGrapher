@@ -47,11 +47,13 @@ namespace ImdbGrapher.Controllers
         /// </summary>
         /// <param name="id">The show id</param>
         /// <returns>The view</returns>
-        public ActionResult GraphShow(string id)
+        public async Task<ActionResult> GraphShow(string id)
         {
+            var show = await apiLogic.GetShowAsync(id);
+
             return View(new GraphShowModel()
             {
-                ShowId = id
+                Show = show
             });
         }
         
@@ -84,10 +86,11 @@ namespace ImdbGrapher.Controllers
         /// Gets the show graph data
         /// </summary>
         /// <param name="showId">The show ID</param>
+        /// <param name="totalSeasons">The seasons count</param>
         /// <returns>The show data</returns>
-        public async Task<JsonResult> GetShowData(string showId)
+        public async Task<JsonResult> GetShowData(string showId, int totalSeasons)
         {
-            ShowRating rating = await apiLogic.GetShowEpisodeRatingsAsync(showId);
+            List<SeasonRating> rating = await apiLogic.GetShowEpisodeRatingsAsync(showId, totalSeasons);
             return Json(rating, JsonRequestBehavior.AllowGet);
         }
     }

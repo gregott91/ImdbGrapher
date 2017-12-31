@@ -1,5 +1,8 @@
 ﻿@{
-    ViewBag.Title = "IMDB Show Grapher";
+    if (string.IsNullOrEmpty(ViewBag.Title))
+    {
+        ViewBag.Title = "IMDB Show Grapher";
+    }
 }
 
 <!DOCTYPE html>

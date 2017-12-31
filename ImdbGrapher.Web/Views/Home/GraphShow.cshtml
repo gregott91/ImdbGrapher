@@ -1,6 +1,13 @@
 ﻿@using ImdbGrapher.Models.Home
 @model GraphShowModel
 
+@{
+    if (Model.Show != null)
+    {
+        ViewBag.Title = "Graph for " + Model.Show.ShowTitle;
+    }
+}
+
 @section styles {
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 }
@@ -11,7 +18,9 @@
     <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 }
 
-<input hidden id="showId" value="@Model.ShowId" />
+<div hidden id="show">
+    @Html.Raw(Json.Encode(Model.Show))
+</div>
 
 <div class="container" id="loaderContainer">
     <div class="loader"></div>

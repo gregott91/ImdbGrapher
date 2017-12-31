@@ -17,11 +17,19 @@ namespace ImdbGrapher.Interfaces.Business
         Task<string> GetShowIdFromTitleAsync(string showName);
 
         /// <summary>
-        /// Gets the list of ratings for a show
+        /// Gets the details for a show
         /// </summary>
         /// <param name="showId">The show ID</param>
         /// <returns>The show rating</returns>
-        Task<ShowRating> GetShowEpisodeRatingsAsync(string showId);
+        Task<ShowRating> GetShowAsync(string showId);
+
+        /// <summary>
+        /// Gets the list of ratings for a show
+        /// </summary>
+        /// <param name="showId">The show ID</param>
+        /// <param name="totalSeasons">The total seasons</param>
+        /// <returns>The show rating</returns>
+        Task<List<SeasonRating>> GetShowEpisodeRatingsAsync(string showId, int totalSeasons);
 
         /// <summary>
         /// Searches for shows based off the show name

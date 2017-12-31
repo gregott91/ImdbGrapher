@@ -52,8 +52,8 @@ namespace ImdbGrapher.Models.Logic
         public string ImdbVotes { get; set; }
 
         /// <summary>
-        /// The list of seasons
+        /// The total seasons
         /// </summary>
-        public List<SeasonRating> SeasonRatings { get; set; }
+        public int TotalSeasons { get; set; }
     }
 }

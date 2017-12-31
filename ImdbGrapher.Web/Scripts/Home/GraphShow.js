@@ -225,13 +225,15 @@
 
     // gets the show data and graphs the show
     function graphShow() {
+        graphResult = JSON.parse($('#show').text());
+
         $.ajax({
-            url: '/imdbgraph/Home/GetShowData?showId=' + $('#showId').val(),
+            url: '/imdbgraph/Home/GetShowData?showId=' + graphResult.ImdbId + '&totalSeasons=' + graphResult.TotalSeasons,
             success: function (result) {
                 $('#loaderContainer').hide();
 
-                if (result.ShowTitle) {
-                    graphResult = result;
+                if (result.length > 0) {
+                    graphResult.SeasonRatings = result;
 
                     initializeGraphData();
                     initializeChart();
