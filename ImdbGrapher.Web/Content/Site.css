@@ -267,6 +267,7 @@ div.aboutLine {
 
 div.episodeListHeader {
     text-align: center;
+    white-space: nowrap;
 }
 
 div.episodeListTitle {
@@ -288,12 +289,13 @@ div.episodeItem {
 
 a.episodeTitle {
     display: inline-block;
+    margin-right: 20px;
 }
 
 span.episodeRelease {
     margin-right: 20px;
-    margin-left: 20px;
     display: inline-block;
+    color: #666666;
 }
 
 span.episodeRatingContainer {
@@ -306,13 +308,25 @@ span.episodeRatingContainer {
 }
 
 span.episodeRating {
+    font-weight: bold;
 }
 
 span.ratingOutOf {
+    font-size: 11px;
+    color: #666666;
 }
 
 span.starRatings {
+    white-space: nowrap;
 }
 
 span.starValue {
+    font-size: 16px;
+    margin-right: 1px;
+}
+
+@media (max-width: 767px) {
+    #seasonSelect {
+        width: auto;
+    }
 }

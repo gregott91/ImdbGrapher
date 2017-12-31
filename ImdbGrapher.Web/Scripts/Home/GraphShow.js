@@ -27,10 +27,6 @@
 
     // handle a click on the chart
     $('#showChart').mousedown(function (e) {
-        if (e.which != 1 && e.which != 2) {
-            return;
-        }
-
         var elements = chart.getElementAtEvent(e);
 
         if (elements.length < 1) {
@@ -46,14 +42,12 @@
             return;
         }
 
-        // generate the url for the show
-        var url = imdbUrl + graphResult.SeasonRatings[episodeIndex.Season].EpisodeRatings[episodeIndex.Episode].ImdbId;
-
-        // open in current window or new tab, depending on click type
-        if (e.which == 2) {
-            window.open(url, '_blank');
+        if (Modernizr.mq('only all and (max-width: 480px)')) {
+            // small browsers
+            navigateToEpisodeInList(e, episodeIndex);
         } else {
-            window.location.href = url;
+            // large browsers
+            navigateToEpisodeUrl(e, episodeIndex);
         }
     });
 
@@ -73,6 +67,37 @@
     $('#seasonSelect').change(function () {
         updateEpisodeList();
     });
+
+    function navigateToEpisodeInList(e, episodeIndex) {
+        $('#seasonSelect').val(episodeIndex.Season + 1);
+        updateEpisodeList();
+
+        var episode = $('div[data-episodeindex=' + episodeIndex.Episode + ']');
+
+        $('html, body').animate({
+            scrollTop: $(episode).offset().top
+        }, 500);
+
+        $(episode).stop().css('background-color', '#FFFF9C')
+            .animate({ backgroundColor: '#FFFFFF' }, 5000);
+    }
+
+    // navigates to the IMDB url for an episode
+    function navigateToEpisodeUrl(e, episodeIndex) {
+        if (e.which != 1 && e.which != 2) {
+            return;
+        }
+
+        // generate the url for the show
+        var url = imdbUrl + graphResult.SeasonRatings[episodeIndex.Season].EpisodeRatings[episodeIndex.Episode].ImdbId;
+
+        // open in current window or new tab, depending on click type
+        if (e.which == 2) {
+            window.open(url, '_blank');
+        } else {
+            window.location.href = url;
+        }
+    }
 
     function getSeasonIntegerValue() {
         var result = $('#seasonSelect').val();
@@ -134,7 +159,7 @@
 
             var starContainer = '<span class="starRatings" style="color:' + seasonColor + '">' + starRatings + '</span>';
 
-            var combined = '<div class="episodeItem">' + title + release + ratingContainer + starContainer + '</div>';
+            var combined = '<div class="episodeItem" data-episodeindex="' + index + '">' + title + release + ratingContainer + starContainer + '</div>';
 
             $('#episodeList').append(combined);
         }
