@@ -18,11 +18,15 @@
 </div>
 
 <div class="container" id="graphContainer" hidden>
-    <div class="graphCanvasContainer">
-        <span class="fa fa-cog" id="settingsCog" data-toggle="modal" data-target="#gridSettingsModal"></span>
+    <div class="graphHeaderContainer">
         <div class="showTitleDisplay">
-            <a id="showTitleDisplayContent" class="displayPosterLink"></a>
+            <div class="showTitleDisplayTitle">
+                <a id="showTitleDisplayContent" class="displayPosterLink"></a>
+            </div>
+            <span class="fa fa-cog" id="settingsCog" data-toggle="modal" data-target="#gridSettingsModal"></span>
         </div>
+    </div>
+    <div class="graphCanvasContainer">
         <canvas id="showChart"></canvas>
     </div>
     <div class="container gridFooterContainer">

@@ -82,6 +82,7 @@ a.searchResultLink {
 div.showTitleDisplay {
     text-align: center;
     padding-top: 5px;
+    position: relative;
 }
 
 #showTitleDisplayContent {
@@ -91,12 +92,11 @@ div.showTitleDisplay {
 }
 
 #settingsCog {
-    position: absolute;
-    right: 12px;
-    top: 11px;
     color: rgb(200,200,200);
     font-size: 20px;
     cursor: pointer;
+    vertical-align: top;
+    margin-top: 6px;
 }
 
 #posterDisplay {
@@ -331,6 +331,15 @@ span.starValue {
 div.graphCanvasContainer {
     overflow-x: auto;
     max-width: 1110px;
+}
+
+div.graphHeaderContainer {
     background-color: rgb(50,50,50);
-    position: relative;
+    max-width: 1110px;
+}
+
+div.showTitleDisplayTitle {
+    width: calc(100% - 94px);
+    display: inline-block;
+    margin-left: 47px;
 }
