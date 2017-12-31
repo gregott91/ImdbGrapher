@@ -27,10 +27,6 @@
         displayShowGraph();
     });
 
-    $('#smallShowTitle').click(function () {
-        expandOrCollapseDetails($('#smallShowTitle'));
-    });
-
     $('#showDetailsButton').click(function () {
         expandOrCollapseDetails($('#showDetailsButton'));
     });
@@ -52,7 +48,7 @@
             return;
         }
 
-        if (Modernizr.mq('only all and (max-width: 480px)')) {
+        if (Modernizr.mq('only all and (max-width: 767px)')) {
             // small browsers
             navigateToEpisodeInList(e, episodeIndex);
         } else {
@@ -317,9 +313,8 @@
 
         var imdbLink = imdbUrl + graphResult.ImdbId;
 
-        $('.showTitleDisplayContent').text(graphResult.ShowTitle + " (" + graphResult.Year + ")");
-        $('#largeShowTitle').attr('href', imdbLink);
-        $('#viewOnImdbLink').attr('href', imdbLink);
+        $('#showTitleDisplayContent').text(graphResult.ShowTitle + " (" + graphResult.Year + ")");
+        $('#showTitleDisplayContent').attr('href', imdbLink);
         $('#similarShowsLink').attr('href', '/imdbgraph/Home/SearchShows?showTitle=' + graphResult.ShowTitle);
     }
 

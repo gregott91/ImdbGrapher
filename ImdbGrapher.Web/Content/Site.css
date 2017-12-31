@@ -85,13 +85,13 @@ div.showTitleDisplay {
     position: relative;
 }
 
-.showTitleDisplayContent {
+#showTitleDisplayContent {
     color: white;
     font-size: 22px;
     font-weight: bold;
 }
 
-    .showTitleDisplayContent:hover {
+    #showTitleDisplayContent:hover {
         color: white;
     }
 
@@ -433,34 +433,12 @@ div.showDetailsButton {
         color: #333;
     }
 
-.smallShowDisplayContent {
-    display: none;
-}
-
-div.viewOnImdbLinkContainer {
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 10px;
-    display: none;
-}
-
 
 @media (max-width: 767px) {
-    div.viewOnImdbLinkContainer {
-        display: block;
-    }
-
-
-    .smallShowDisplayContent {
-        display: block;
-    }
-
-    .largeShowDisplayContent {
-        display: none;
-    }
-
     div.showDetailsButton {
-        display: none;
+        position: absolute;
+        top: 6px;
+        left: 3px;
     }
 
     #seasonSelect {
