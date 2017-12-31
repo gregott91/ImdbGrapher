@@ -18,11 +18,13 @@
 </div>
 
 <div class="container" id="graphContainer" hidden>
-    <div class="showTitleDisplay">
-        <a id="showTitleDisplayContent" class="displayPosterLink"></a>
+    <div class="graphCanvasContainer">
         <span class="fa fa-cog" id="settingsCog" data-toggle="modal" data-target="#gridSettingsModal"></span>
+        <div class="showTitleDisplay">
+            <a id="showTitleDisplayContent" class="displayPosterLink"></a>
+        </div>
+        <canvas id="showChart"></canvas>
     </div>
-    <canvas id="showChart"></canvas>
     <div class="container gridFooterContainer">
         <div>
             <a id="similarShowsLink">View Similar Shows</a>

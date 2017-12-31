@@ -80,11 +80,8 @@ a.searchResultLink {
 }
 
 div.showTitleDisplay {
-    width: 1110px;
     text-align: center;
     padding-top: 5px;
-    background-color: rgb(50,50,50);
-    position: relative;
 }
 
 #showTitleDisplayContent {
@@ -329,4 +326,11 @@ span.starValue {
     #seasonSelect {
         width: auto;
     }
+}
+
+div.graphCanvasContainer {
+    overflow-x: auto;
+    max-width: 1110px;
+    background-color: rgb(50,50,50);
+    position: relative;
 }
