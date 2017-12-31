@@ -264,3 +264,55 @@ h1.jumbotronHeader {
 div.aboutLine {
     margin-bottom: 5px;
 }
+
+div.episodeListHeader {
+    text-align: center;
+}
+
+div.episodeListTitle {
+    text-align: center;
+}
+
+button.episodeListNavButton {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+#seasonSelect {
+    display: inline-block;
+}
+
+div.episodeItem {
+    margin-top: 6px;
+}
+
+a.episodeTitle {
+    display: inline-block;
+}
+
+span.episodeRelease {
+    margin-right: 20px;
+    margin-left: 20px;
+    display: inline-block;
+}
+
+span.episodeRatingContainer {
+    display: inline-block;
+    width: 60px;
+}
+
+#episodeList {
+    margin-top: 10px;
+}
+
+span.episodeRating {
+}
+
+span.ratingOutOf {
+}
+
+span.starRatings {
+}
+
+span.starValue {
+}

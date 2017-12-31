@@ -57,6 +57,101 @@
         }
     });
 
+    $('#backButton').click(function () {
+        var result = getSeasonIntegerValue() - 1;
+        $('#seasonSelect').val(result);
+        updateEpisodeList();
+    });
+
+    $('#nextButton').click(function () {
+        var result = getSeasonIntegerValue() + 1;
+        $('#seasonSelect').val(result);
+        updateEpisodeList();
+    });
+
+    // handles when the season is changed in the drop down
+    $('#seasonSelect').change(function () {
+        updateEpisodeList();
+    });
+
+    function getSeasonIntegerValue() {
+        var result = $('#seasonSelect').val();
+
+        if (result == null) {
+            return 0;
+        }
+
+        return parseInt(result);
+    }
+
+    function updateEpisodeList() {
+        var result = getSeasonIntegerValue() - 1;
+        var season = graphResult.SeasonRatings[result];
+        var seasonColor = formatColor(getSeasonColor(result), 1);
+
+        // enable/disable buttons
+        if (result == 0) {
+            $('#backButton').attr('disabled', true);
+        } else {
+            $('#backButton').removeAttr('disabled');
+        }
+
+        if (result == (graphResult.SeasonRatings.length - 1)) {
+            $('#nextButton').attr('disabled', true);
+        } else {
+            $('#nextButton').removeAttr('disabled');
+        }
+
+        $('#episodeList').empty();
+
+        for (var index in season.EpisodeRatings) {
+            var episode = season.EpisodeRatings[index];
+            var ratingValue = episode.ImdbRating;
+
+            var stars = parseInt(ratingValue);
+            var remainder = parseFloat(ratingValue) - stars;
+            var hasPartialStar = false;
+
+            if (remainder > .3 && remainder < .8) {
+                hasPartialStar = true;
+            } else if (remainder >= .8) {
+                stars++;
+            }
+
+            var title = '<a class="episodeTitle" href="' + imdbUrl + episode.ImdbId + '">' + episode.Title + '</a>';
+            var release = '<span class="episodeRelease">' + episode.Released + '</span>';
+            var rating = '<span class="episodeRating">' + ratingValue + '</span>';
+            var ratingContainer = '<span class="episodeRatingContainer">' + rating + '<span class="ratingOutOf">/10</span></span>';
+            var starRatings = '';
+
+            for (var i = 0; i < stars; i++) {
+                starRatings += '<span class="fa fa-star starValue"></span>'
+            }
+
+            if (hasPartialStar) {
+                starRatings += '<span class="fa fa-star-half starValue"></span>'
+            }
+
+            var starContainer = '<span class="starRatings" style="color:' + seasonColor + '">' + starRatings + '</span>';
+
+            var combined = '<div class="episodeItem">' + title + release + ratingContainer + starContainer + '</div>';
+
+            $('#episodeList').append(combined);
+        }
+
+        $('#episodeList').show();
+
+        var maxWidth = 0;
+        $('#episodeList a.episodeTitle').each(function (index, element) {
+            var elementWidth = element.offsetWidth;
+            maxWidth = Math.max(maxWidth, elementWidth);
+        });
+
+        $('#episodeList a.episodeTitle').each(function (index, element) {
+            $(element).css('width', (maxWidth + 1) + 'px');
+        });
+    }
+
     // updates the filter dropdowns for the season
     function updateSeasonFilter(startChanged) {
         $('#filterSeasons').prop('checked', true);
@@ -86,6 +181,7 @@
                     initializeGraphData();
                     initializeChart();
                     displayShowGraph();
+                    displayEpisodeList();
                 } else {
                     $('#errorContainer').show();
                 }
@@ -95,6 +191,13 @@
                 $('#errorContainer').show();
             }
         });
+    }
+
+    function displayEpisodeList() {
+        for (var seasonIndex in graphResult.SeasonRatings) {
+            var season = graphResult.SeasonRatings[seasonIndex].Season;
+            $('#seasonSelect').append('<option value="' + season + '">Season ' + season + '</option>');
+        }
     }
 
     // initializes the data for the graph

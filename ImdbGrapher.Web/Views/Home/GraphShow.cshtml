@@ -30,6 +30,26 @@
             <a href="/imdbgraph">Graph Another Show</a>
         </div>
     </div>
+    <hr />
+    <div class="container episodeListContainer">
+        <div class="episodeListTitle">
+            <h3>
+                Episode List
+            </h3>
+        </div>
+        <div class="episodeListHeader">
+            <button class="btn btn-primary episodeListNavButton" id="backButton" disabled>
+                <span class="fa fa-arrow-left"></span>
+            </button>
+            <select id="seasonSelect" class="form-control">
+                <option value="-1" disabled selected>Select a season...</option>
+            </select>
+            <button class="btn btn-primary episodeListNavButton" id="nextButton">
+                <span class="fa fa-arrow-right"></span>
+            </button>
+        </div>
+        <div id="episodeList" class="container" hidden></div>
+    </div>
 </div>
 
 <div class="container" id="errorContainer" hidden>
