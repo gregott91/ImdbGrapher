@@ -16,25 +16,23 @@
     $('#startFromZero').change(displayShowGraph);
     $('#showSeriesTrendline').change(displayShowGraph);
     $('#filterSeasons').change(displayShowGraph);
+
     $('#seasonStartDropdown').change(function () {
         updateSeasonFilter(true);
         displayShowGraph();
     });
+
     $('#seasonEndDropdown').change(function () {
         updateSeasonFilter(false);
         displayShowGraph();
     });
 
+    $('#smallShowTitle').click(function () {
+        expandOrCollapseDetails($('#smallShowTitle'));
+    });
+
     $('#showDetailsButton').click(function () {
-        var isExpanded = $('#showDetailsButton').attr('data-expanded') == 'true';
-
-        $('#showDetailsButton').attr('data-expanded', !isExpanded);
-
-        if (isExpanded) {
-            $('.showDetailsContainer').slideUp(100);
-        } else {
-            $('.showDetailsContainer').slideDown(100);
-        }
+        expandOrCollapseDetails($('#showDetailsButton'));
     });
 
     // handle a click on the chart
@@ -80,6 +78,20 @@
         updateEpisodeList();
     });
 
+    // expands or collapses the show details
+    function expandOrCollapseDetails(element) {
+        var isExpanded = $(element).attr('data-expanded') == 'true';
+
+        $(element).attr('data-expanded', !isExpanded);
+
+        if (isExpanded) {
+            $('.showDetailsContainer').slideUp(100);
+        } else {
+            $('.showDetailsContainer').slideDown(100);
+        }
+    }
+
+    // scrolls the screen to the episode
     function navigateToEpisodeInList(e, episodeIndex) {
         $('#seasonSelect').val(episodeIndex.Season + 1);
         updateEpisodeList();
@@ -303,9 +315,11 @@
             $('.showDetailStars').append('<span class="fa fa-star-half"></span>');
         }
 
+        var imdbLink = imdbUrl + graphResult.ImdbId;
 
-        $('#showTitleDisplayContent').text(graphResult.ShowTitle + " (" + graphResult.Year + ")");
-        $('#showTitleDisplayContent').attr('href', imdbUrl + graphResult.ImdbId);
+        $('.showTitleDisplayContent').text(graphResult.ShowTitle + " (" + graphResult.Year + ")");
+        $('#largeShowTitle').attr('href', imdbLink);
+        $('#viewOnImdbLink').attr('href', imdbLink);
         $('#similarShowsLink').attr('href', '/imdbgraph/Home/SearchShows?showTitle=' + graphResult.ShowTitle);
     }
 

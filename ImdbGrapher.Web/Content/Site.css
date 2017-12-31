@@ -85,11 +85,15 @@ div.showTitleDisplay {
     position: relative;
 }
 
-#showTitleDisplayContent {
+.showTitleDisplayContent {
     color: white;
     font-size: 22px;
     font-weight: bold;
 }
+
+    .showTitleDisplayContent:hover {
+        color: white;
+    }
 
 #settingsCog {
     vertical-align: top;
@@ -321,12 +325,6 @@ span.starValue {
     margin-right: 1px;
 }
 
-@media (max-width: 767px) {
-    #seasonSelect {
-        width: auto;
-    }
-}
-
 div.graphCanvasContainer {
     overflow-x: auto;
     max-width: 1110px;
@@ -413,15 +411,15 @@ div.showDetailsButton {
     }
 
     div.showDetailsButton span.fa-caret-up {
-            position: absolute;
-    left: 9px;
-    top: 3px;
+        position: absolute;
+        left: 9px;
+        top: 3px;
     }
 
     div.showDetailsButton span.fa-caret-down {
         position: absolute;
-    left: 9px;
-    top: 5px;
+        left: 9px;
+        top: 5px;
     }
 
 .titleIcon {
@@ -434,3 +432,52 @@ div.showDetailsButton {
         background-color: rgb(200,200,200);
         color: #333;
     }
+
+.smallShowDisplayContent {
+    display: none;
+}
+
+div.viewOnImdbLinkContainer {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+
+@media (max-width: 767px) {
+    div.viewOnImdbLinkContainer {
+        display: block;
+    }
+
+
+    .smallShowDisplayContent {
+        display: block;
+    }
+
+    .largeShowDisplayContent {
+        display: none;
+    }
+
+    div.showDetailsButton {
+        display: none;
+    }
+
+    #seasonSelect {
+        width: auto;
+    }
+
+    img.showDetailPoster {
+        display: block;
+        margin: 0 auto;
+    }
+
+    div.showDetailContent {
+        display: block;
+        width: auto;
+    }
+
+    span.showDetailStars {
+        display: block;
+    }
+}

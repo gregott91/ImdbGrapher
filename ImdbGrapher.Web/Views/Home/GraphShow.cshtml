@@ -21,7 +21,8 @@
     <div class="graphHeaderContainer">
         <div class="showTitleDisplay">
             <div class="showTitleDisplayTitle">
-                <a id="showTitleDisplayContent"></a>
+                <a class="showTitleDisplayContent largeShowDisplayContent" id="largeShowTitle"></a>
+                <span class="showTitleDisplayContent smallShowDisplayContent" id="smallShowTitle" data-expanded="false"></span>
                 <div class="showDetailsButton titleIcon" id="showDetailsButton" data-expanded="false">
                     <span class="fa fa-caret-down"></span>
                     <span class="fa fa-caret-up"></span>
@@ -30,6 +31,9 @@
             <span class="fa fa-cog titleIcon" id="settingsCog" data-toggle="modal" data-target="#gridSettingsModal"></span>
         </div>
         <div class="showDetailsContainer" hidden>
+            <div class="viewOnImdbLinkContainer">
+                <a id="viewOnImdbLink">View on IMDB</a>
+            </div>
             <img class="showDetailPoster" />
             <div class="showDetailContent">
                 <div class="showDetailRatingContainer">
