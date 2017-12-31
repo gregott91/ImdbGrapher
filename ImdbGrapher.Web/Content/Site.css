@@ -92,11 +92,10 @@ div.showTitleDisplay {
 }
 
 #settingsCog {
-    color: rgb(200,200,200);
-    font-size: 20px;
-    cursor: pointer;
     vertical-align: top;
-    margin-top: 6px;
+    margin-top: 1px;
+    font-size: 20px;
+    padding: 5px;
 }
 
 #posterDisplay {
@@ -343,3 +342,95 @@ div.showTitleDisplayTitle {
     display: inline-block;
     margin-left: 47px;
 }
+
+div.showDetailsContainer {
+    color: white;
+    white-space: nowrap;
+    padding: 10px 20px 20px 20px;
+}
+
+img.showDetailPoster {
+    width: 200px;
+}
+
+div.showDetailContent {
+    display: inline-block;
+    white-space: normal;
+    width: calc(100% - 230px);
+    vertical-align: top;
+    margin-left: 20px;
+}
+
+div.showDetailRatingContainer {
+    margin-bottom: 10px;
+}
+
+span.showDetailRating {
+    font-size: 24px;
+}
+
+span.showDetailOutOf {
+    color: rgb(170,170,170);
+    font-size: 10px;
+    margin-right: 10px;
+}
+
+span.showDetailVotes {
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+span.showDetailStars {
+    color: rgb(228,187,36);
+    font-size: 18px;
+}
+
+    span.showDetailStars span {
+        margin-right: 4px;
+    }
+
+div.showDetailActors {
+    margin-bottom: 10px;
+}
+
+div.showDetailsButton {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 2px;
+    margin-left: 5px;
+    font-size: 20px;
+    position: relative;
+    height: 30px;
+    width: 30px;
+}
+
+    div.showDetailsButton[data-expanded=true] span.fa-caret-down {
+        display: none;
+    }
+
+    div.showDetailsButton[data-expanded=false] span.fa-caret-up {
+        display: none;
+    }
+
+    div.showDetailsButton span.fa-caret-up {
+            position: absolute;
+    left: 9px;
+    top: 3px;
+    }
+
+    div.showDetailsButton span.fa-caret-down {
+        position: absolute;
+    left: 9px;
+    top: 5px;
+    }
+
+.titleIcon {
+    color: rgb(200,200,200);
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+    .titleIcon:hover {
+        background-color: rgb(200,200,200);
+        color: #333;
+    }

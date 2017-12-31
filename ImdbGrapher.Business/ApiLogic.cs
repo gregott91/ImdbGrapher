@@ -92,6 +92,9 @@ namespace ImdbGrapher.Business
                 ImdbRating = nullableRating,
                 PosterUrl = response.Poster,
                 Year = response.Year,
+                Actors = response.Actors,
+                ImdbVotes = response.ImdbVotes,
+                Plot = response.Plot,
                 SeasonRatings = new List<SeasonRating>()
             };
 

@@ -45,5 +45,20 @@ namespace ImdbGrapher.Models.Api
         /// The release date(s)
         /// </summary>
         public string Year { get; set; }
+
+        /// <summary>
+        /// The actors
+        /// </summary>
+        public string Actors { get; set; }
+
+        /// <summary>
+        /// The plot
+        /// </summary>
+        public string Plot { get; set; }
+
+        /// <summary>
+        /// The number of votes
+        /// </summary>
+        public string ImdbVotes { get; set; }
     }
 }

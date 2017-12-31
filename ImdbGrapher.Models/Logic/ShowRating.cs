@@ -37,6 +37,21 @@ namespace ImdbGrapher.Models.Logic
         public string Year { get; set; }
 
         /// <summary>
+        /// The actors
+        /// </summary>
+        public string Actors { get; set; }
+
+        /// <summary>
+        /// The plot
+        /// </summary>
+        public string Plot { get; set; }
+
+        /// <summary>
+        /// The number of votes
+        /// </summary>
+        public string ImdbVotes { get; set; }
+
+        /// <summary>
         /// The list of seasons
         /// </summary>
         public List<SeasonRating> SeasonRatings { get; set; }

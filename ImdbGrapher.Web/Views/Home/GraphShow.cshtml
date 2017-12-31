@@ -21,9 +21,25 @@
     <div class="graphHeaderContainer">
         <div class="showTitleDisplay">
             <div class="showTitleDisplayTitle">
-                <a id="showTitleDisplayContent" class="displayPosterLink"></a>
+                <a id="showTitleDisplayContent"></a>
+                <div class="showDetailsButton titleIcon" id="showDetailsButton" data-expanded="false">
+                    <span class="fa fa-caret-down"></span>
+                    <span class="fa fa-caret-up"></span>
+                </div>
             </div>
-            <span class="fa fa-cog" id="settingsCog" data-toggle="modal" data-target="#gridSettingsModal"></span>
+            <span class="fa fa-cog titleIcon" id="settingsCog" data-toggle="modal" data-target="#gridSettingsModal"></span>
+        </div>
+        <div class="showDetailsContainer" hidden>
+            <img class="showDetailPoster" />
+            <div class="showDetailContent">
+                <div class="showDetailRatingContainer">
+                    <span class="showDetailRating"></span><span class="showDetailOutOf">/10</span>
+                    <span class="showDetailVotes"></span>
+                    <span class="showDetailStars"></span>
+                </div>
+                <div class="showDetailActors"></div>
+                <div class="showDetailPlot"></div>
+            </div>
         </div>
     </div>
     <div class="graphCanvasContainer">

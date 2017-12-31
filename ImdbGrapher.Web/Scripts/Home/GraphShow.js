@@ -25,6 +25,18 @@
         displayShowGraph();
     });
 
+    $('#showDetailsButton').click(function () {
+        var isExpanded = $('#showDetailsButton').attr('data-expanded') == 'true';
+
+        $('#showDetailsButton').attr('data-expanded', !isExpanded);
+
+        if (isExpanded) {
+            $('.showDetailsContainer').slideUp(100);
+        } else {
+            $('.showDetailsContainer').slideDown(100);
+        }
+    });
+
     // handle a click on the chart
     $('#showChart').mousedown(function (e) {
         var elements = chart.getElementAtEvent(e);
@@ -134,15 +146,7 @@
             var episode = season.EpisodeRatings[index];
             var ratingValue = episode.ImdbRating;
 
-            var stars = parseInt(ratingValue);
-            var remainder = parseFloat(ratingValue) - stars;
-            var hasPartialStar = false;
-
-            if (remainder > .3 && remainder < .8) {
-                hasPartialStar = true;
-            } else if (remainder >= .8) {
-                stars++;
-            }
+            var stars = getStarRating(ratingValue);
 
             var title = '<a class="episodeTitle" href="' + imdbUrl + episode.ImdbId + '">' + episode.Title + '</a>';
             var release = '<span class="episodeRelease">' + episode.Released + '</span>';
@@ -150,11 +154,11 @@
             var ratingContainer = '<span class="episodeRatingContainer">' + rating + '<span class="ratingOutOf">/10</span></span>';
             var starRatings = '';
 
-            for (var i = 0; i < stars; i++) {
+            for (var i = 0; i < stars.starCount; i++) {
                 starRatings += '<span class="fa fa-star starValue"></span>'
             }
 
-            if (hasPartialStar) {
+            if (stars.hasPartialStar) {
                 starRatings += '<span class="fa fa-star-half starValue"></span>'
             }
 
@@ -176,6 +180,23 @@
         $('#episodeList a.episodeTitle').each(function (index, element) {
             $(element).css('width', (maxWidth + 1) + 'px');
         });
+    }
+
+    function getStarRating(ratingValue) {
+        var stars = parseInt(ratingValue);
+        var remainder = parseFloat(ratingValue) - stars;
+        var hasPartialStar = false;
+
+        if (remainder > .3 && remainder < .8) {
+            hasPartialStar = true;
+        } else if (remainder >= .8) {
+            stars++;
+        }
+
+        return {
+            starCount: stars,
+            hasPartialStar: hasPartialStar
+        }
     }
 
     // updates the filter dropdowns for the season
@@ -266,10 +287,25 @@
             $('#seasonEndDropdown').append('<option value="' + season.Season + '">' + season.Season + '</option>');
         }
 
+        $('.showDetailPoster').attr('src', graphResult.PosterUrl);
+        $('.showDetailRating').text(graphResult.ImdbRating);
+        $('.showDetailVotes').text('(' + graphResult.ImdbVotes + ')');
+        $('.showDetailActors').text(graphResult.Actors);
+        $('.showDetailPlot').text(graphResult.Plot);
+
+        //<span class="fa fa-star"></span>
+        var rating = getStarRating(graphResult.ImdbRating);
+        for (var i = 0; i < rating.starCount; i++) {
+            $('.showDetailStars').append('<span class="fa fa-star"></span>');
+        }
+
+        if (rating.hasPartialStar) {
+            $('.showDetailStars').append('<span class="fa fa-star-half"></span>');
+        }
+
+
         $('#showTitleDisplayContent').text(graphResult.ShowTitle + " (" + graphResult.Year + ")");
         $('#showTitleDisplayContent').attr('href', imdbUrl + graphResult.ImdbId);
-        $('#showTitleDisplayContent').attr('data-poster', graphResult.PosterUrl);
-        $('#showTitleDisplayContent').attr('data-rating', graphResult.ImdbRating);
         $('#similarShowsLink').attr('href', '/imdbgraph/Home/SearchShows?showTitle=' + graphResult.ShowTitle);
     }
 
