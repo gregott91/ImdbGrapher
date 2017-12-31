@@ -75,7 +75,8 @@
         var episode = $('div[data-episodeindex=' + episodeIndex.Episode + ']');
 
         $('html, body').animate({
-            scrollTop: $(episode).offset().top - 100
+            scrollTop: $(episode).offset().top - 100,
+            scrollLeft: 0
         }, 500);
 
         $(episode).stop().css('background-color', '#FFFF9C')
