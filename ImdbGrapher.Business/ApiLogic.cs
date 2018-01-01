@@ -10,6 +10,8 @@ using ImdbGrapher.Utilities;
 using System.Text.RegularExpressions;
 using ImdbGrapher.Interfaces.Business;
 using ImdbGrapher.Interfaces.Api;
+using log4net;
+using System.Net.Http;
 
 namespace ImdbGrapher.Business
 {
@@ -20,6 +22,7 @@ namespace ImdbGrapher.Business
     {
         private IShowApi api;
         private string apiKey;
+        private static readonly ILog log = LogManager.GetLogger(typeof(ApiLogic));
 
         /// <summary>
         /// Creates the logic
@@ -35,7 +38,20 @@ namespace ImdbGrapher.Business
         /// <inheritdoc />
         public async Task<string> GetShowIdFromTitleAsync(string showName)
         {
-            ShowQueryResponse response = await api.GetShowByTitleAsync(showName, apiKey);
+            ShowQueryResponse response = null;
+
+            try
+            {
+                response = await api.GetShowByTitleAsync(showName, apiKey);
+            }
+            catch (HttpRequestException ex)
+            {
+                log.Error("Failed while getting the show by title for " + showName, ex);
+                response = new ShowQueryResponse()
+                {
+                    Response = false
+                };
+            }
 
             bool foundShow = response.Response;
 
@@ -54,7 +70,7 @@ namespace ImdbGrapher.Business
             // if no show is found, perform a search for all shows that match
             if (!foundShow)
             {
-                var searchResults = await api.SearchForShowAsync(showName, apiKey);
+                SearchQueryResponse searchResults = await api.SearchForShowAsync(showName, apiKey);
 
                 // if only one result is returned, assume this is the show that's being searched for
                 if (searchResults.Response && searchResults.Search.Count() == 1)
@@ -176,7 +192,7 @@ namespace ImdbGrapher.Business
 
             if (!searchResponse.Response)
             {
-                return new List<SearchResult>();
+                throw new InvalidOperationException("Unable to retrieve search results for " + showName);
             }
 
             List<SearchResult> searchResults = new List<SearchResult>();

@@ -227,6 +227,10 @@
     function graphShow() {
         graphResult = JSON.parse($('#show').text());
 
+        if ((!graphResult) || (!graphResult.ImdbId)) {
+            $('#errorContainer').show();
+        }
+
         $.ajax({
             url: '/imdbgraph/Home/GetShowData?showId=' + graphResult.ImdbId + '&totalSeasons=' + graphResult.TotalSeasons,
             success: function (result) {

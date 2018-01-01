@@ -69,18 +69,20 @@ namespace ImdbGrapher.Api
             {
                 using (var client = new HttpClient())
                 {
-                    string result = await client.GetStringAsync(requestUrl);
+                    log.Info("Making API request for URL " + requestUrl);
 
-                    log.Debug("Making API request for URL " + requestUrl);
+                    HttpResponseMessage result = await client.GetAsync(requestUrl);
+                    result.EnsureSuccessStatusCode();
 
-                    return JsonConvert.DeserializeObject<T>(result);
+                    string content = await result.Content.ReadAsStringAsync();
+
+                    return JsonConvert.DeserializeObject<T>(content);
                 }
             }
             catch (Exception ex)
             {
                 log.Error("Error while trying to make API request for URL " + requestUrl, ex);
-
-                return default(T);
+                throw;
             }
         }
     }
