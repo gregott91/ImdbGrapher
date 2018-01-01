@@ -49,10 +49,9 @@
                 } else {
                     window.location.href = graphUrl + result;
                 }
-            }, complete: function () {
-                $('#graphButton').removeAttr('disabled');
-                $('#buttonText').show();
-                $('#buttonLoader').hide();
+            }, error: function () {
+                // if the search threw an error, redirect to the search page for the show title
+                window.location.href = searchUrl + showValue;
             }
         });
     }
