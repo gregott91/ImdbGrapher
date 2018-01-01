@@ -61,7 +61,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 #showChart {
-    background-color: rgb(50,50,50);
+    background-color: rgb(40,40,40);
 }
 
 .searchResult {
@@ -331,7 +331,7 @@ div.graphCanvasContainer {
 }
 
 div.graphHeaderContainer {
-    background-color: rgb(50,50,50);
+    background-color: rgb(40,40,40);
     max-width: 1110px;
 }
 
