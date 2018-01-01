@@ -619,29 +619,29 @@
 
         switch (season % 6) {
             case 0:
-                r = 31;
-                g = 156;
-                b = 139;
+                r = 255;
+                g = 232;
+                b = 102;
                 break;
             case 1:
-                r = 118;
-                g = 191;
-                b = 114;
+                r = 30;
+                g = 159;
+                b = 232;
                 break;
             case 2:
                 r = 255;
-                g = 223;
-                b = 79;
+                g = 81;
+                b = 143;
                 break;
             case 3:
+                r = 79;
+                g = 232;
+                b = 201;
+                break;
+            case 4:
                 r = 232;
                 g = 80;
                 b = 31;
-                break;
-            case 4:
-                r = 241;
-                g = 129;
-                b = 37;
                 break;
             case 5:
                 r = 184;

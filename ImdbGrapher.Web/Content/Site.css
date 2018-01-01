@@ -434,6 +434,10 @@ div.showDetailsButton {
     }
 
 @media (max-width: 767px) {
+    span.starRatings {
+        display: block;
+    }
+
     div.showDetailsButton {
         position: absolute;
         top: 6px;
