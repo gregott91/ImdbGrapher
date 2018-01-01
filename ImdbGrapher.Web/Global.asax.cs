@@ -15,7 +15,7 @@ namespace ImdbGrapher
     {
         protected void Application_Start()
         {
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
+            log4net.Config.XmlConfigurator.Configure();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
