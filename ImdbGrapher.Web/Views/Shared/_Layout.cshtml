@@ -16,6 +16,16 @@
     @Styles.Render("~/Content/css")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     @RenderSection("styles", required: false)
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111728835-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-111728835-1');
+    </script>
+
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
