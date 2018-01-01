@@ -133,12 +133,17 @@ div.showTitleDisplay {
 
 div.gridFooterContainer {
     text-align: center;
+    width: auto;
     margin-top: 15px;
 }
 
     div.gridFooterContainer div {
         margin-top: 5px;
     }
+
+div.episodeListContainer {
+    width: auto;
+}
 
 #ratingContent {
     text-align: center;
@@ -296,6 +301,7 @@ span.episodeRelease {
     margin-right: 20px;
     display: inline-block;
     color: #666666;
+    width: 74px;
 }
 
 span.episodeRatingContainer {
